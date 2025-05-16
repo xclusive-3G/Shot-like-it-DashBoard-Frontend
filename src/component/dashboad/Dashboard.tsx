@@ -4,20 +4,31 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 import { FaFile } from "react-icons/fa";
 
 const data = [
-    { name: 'Orders', value: 400 },
+    { name: 'Completed', value: 400 },
     { name: 'Returns', value: 100 },
-    { name: 'Revenue', value: 300 },
-    { name: 'Others', value: 200 },
+    { name: 'Delivered', value: 300 },
+    { name: 'packaging', value: 200 },
 ];
 
-const COLORS = ['#0088FE', '#FF8042', '#00C49F', '#FFBB28'];
+const topSales = [
+    { name: "chair", value: 400 },
+    { name: "table", value: 400 },
+    { name: "rug", value: 900 },
+    { name: "carpet", value: 300 },
+    { name: "cup", value: 300 },
+]
+
+const COLORS = ['#0088FE', '#FF8042', '#00C49F', '#FFBB20'];
+const topSalesColors = ['#0088FE', '#FF8042', '#00C49F', '#FFBB28', '#FFBB82']
 
 
 const Dashboard: React.FC = () => {
     return (
         <>
+        <h1 className='text-2xl'>Dashboard</h1>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 p-6 text-white">
                 {/* Orders */}
+                
                 <div className="bg-gray-700 w-auto h-48 rounded-lg shadow-md  justify-center items-center p-4">
                     <div className='flex justify-between text-lime-500'>
                         <p><FaFile size={28} /></p>
@@ -94,10 +105,27 @@ const Dashboard: React.FC = () => {
                             <Legend />
                         </PieChart>
                     </div>
-
                 </div>
                 <div className='w-auto h-96 bg-gray-700 rounded-2xl'>
                     <h3 className='text-center text-xl my-3'>Top 5 selling Product</h3>
+                    <div className='w-full flex justify-center items-center p-2'>
+                        <PieChart width={300} height={300}>
+                            <Pie
+                                dataKey="value"
+                                data={topSales}
+                                label
+                                cx="50%"
+                                cy="50%"
+                                outerRadius={100}
+                            >
+                                {topSales.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={topSalesColors[index % topSalesColors.length]} />
+                                ))}
+                            </Pie>
+                            <Tooltip />
+                            <Legend />
+                        </PieChart>
+                    </div>
                 </div>
             </div>
 
