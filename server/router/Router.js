@@ -1,10 +1,12 @@
-import express from "express"
-import { postDetails,getDetails } from "../controller/ControlApi.js"
+// routes/dataRoute.js
+import express from "express";
+import { postDetails, getDetails, deleteProduct } from "../controller/ControlApi.js";
+import { upload } from "../middleware/multer.js"
 
-const route =express.Router()
+const route = express.Router();
 
+route.post("/data", upload.single("image"), postDetails);
+route.get("/data", getDetails);
+route.delete("/data/:id", deleteProduct);
 
-route.post("/data",postDetails)
-route.get("/data",getDetails)
-
-export default route
+export default route;
