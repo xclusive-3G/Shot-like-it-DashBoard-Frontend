@@ -1,7 +1,8 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import { CiMenuKebab } from "react-icons/ci";
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 import { FaFile } from "react-icons/fa";
+import axios from 'axios';
 
 const data = [
     { name: 'Completed', value: 400 },
@@ -21,11 +22,37 @@ const topSales = [
 const COLORS = ['#0088FE', '#FF8042', '#00C49F', '#FFBB20'];
 const topSalesColors = ['#0088FE', '#FF8042', '#00C49F', '#FFBB28', '#FFBB82']
 
+interface Store{
+     _id: string;
+  title: string;
+  description: string;
+
+}
 
 const Dashboard: React.FC = () => {
+    const [store,setStore] = useState<Store|null>(null)
+    
+    useEffect(()=>{
+        const token = localStorage.getItem('access_token')
+        console.log('token is',token)
+        axios.get('http://localhost:5000/auth/data',
+            {
+                headers:{
+                    Authorization: `Bearer ${token}`,
+                },
+                withCredentials: true
+            }
+        ).then((res)=>{
+            setStore(res.data)
+            console.log('the actual',res.data)
+        }).catch(err=>{
+            alert(err)
+        })
+
+    },[])
     return (
         <>
-        <h1 className='text-2xl'>Dashboard</h1>
+        <h1 className='text-2xl'><p>{store?.title}</p></h1>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 p-6 text-white">
                 {/* Orders */}
                 
@@ -38,6 +65,7 @@ const Dashboard: React.FC = () => {
                         <p className="text-xl mt-2">All Orders</p>
                     </div>
                     <div className='mt-10 '>
+                        
                         <p className="text-xl mt-2 w-10 h-8 bg-lime-500 text-white flex justify-center items-center rounded-md">5</p>
                     </div>
                 </div>
@@ -86,7 +114,7 @@ const Dashboard: React.FC = () => {
             </div>
             <div className=' grid lg:grid-cols-2 mt-3 gap-2 m-5 '>
                 <div className='w-auto h-96 bg-gray-700 rounded-2xl'>
-                    <h3 className='text-center text-xl my-3'>Order Status</h3>
+                    <h3 className='text-center text-xl my-3 text-white'>Order Status</h3>
                     <div className="w-full flex justify-center items-center p-4">
                         <PieChart width={300} height={300}>
                             <Pie
@@ -107,7 +135,7 @@ const Dashboard: React.FC = () => {
                     </div>
                 </div>
                 <div className='w-auto h-96 bg-gray-700 rounded-2xl'>
-                    <h3 className='text-center text-xl my-3'>Top 5 selling Product</h3>
+                    <h3 className='text-center text-xl my-3 text-white'>Top 5 selling Product</h3>
                     <div className='w-full flex justify-center items-center p-2'>
                         <PieChart width={300} height={300}>
                             <Pie
