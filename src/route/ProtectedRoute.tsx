@@ -1,5 +1,4 @@
 import { Navigate } from "react-router-dom";
-import DashboardLayout from "./DashboardLayout";
 interface ProtectedRoute{
     children:React.ReactNode
 }

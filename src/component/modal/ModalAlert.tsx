@@ -1,5 +1,3 @@
-import axios from 'axios';
-import React, { useEffect } from 'react'
 import { IoMdClose } from "react-icons/io";
 
 interface ModalProps {

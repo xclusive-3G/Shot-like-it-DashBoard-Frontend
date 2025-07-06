@@ -2,7 +2,6 @@ import React,{useEffect,useState} from 'react'
 import { CiMenuKebab } from "react-icons/ci";
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 import { FaFile } from "react-icons/fa";
-import axios from 'axios';
 
 const data = [
     { name: 'Completed', value: 400 },
@@ -35,19 +34,28 @@ const Dashboard: React.FC = () => {
     useEffect(()=>{
         const token = localStorage.getItem('access_token')
         console.log('token is',token)
-        axios.get('http://localhost:5000/auth/data',
-            {
-                headers:{
-                    Authorization: `Bearer ${token}`,
-                },
-                withCredentials: true
-            }
-        ).then((res)=>{
-            setStore(res.data)
-            console.log('the actual',res.data)
-        }).catch(err=>{
-            alert(err)
-        })
+        fetch('http://localhost:5000/auth/data', {
+  method: 'GET',
+  headers: {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  },
+  credentials: 'include' // Only include this if using cookies for refresh tokens
+})
+  .then(res => {
+    if (!res.ok) {
+      throw new Error('Fetch error: ' + res.status);
+    }
+    return res.json();
+  })
+  .then(data => {
+    console.log('✅ Data:', data);
+    setStore(data.store);
+  })
+  .catch(err => {
+    console.error('❌ Error:', err);
+  });
+
 
     },[])
     return (
@@ -126,7 +134,7 @@ const Dashboard: React.FC = () => {
                                 dataKey="value"
                             >
                                 {data.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    <Cell key={`cell-${entry}`} fill={COLORS[index % COLORS.length]} />
                                 ))}
                             </Pie>
                             <Tooltip />
@@ -147,7 +155,7 @@ const Dashboard: React.FC = () => {
                                 outerRadius={100}
                             >
                                 {topSales.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={topSalesColors[index % topSalesColors.length]} />
+                                    <Cell key={`cell-${entry}`} fill={topSalesColors[index % topSalesColors.length]} />
                                 ))}
                             </Pie>
                             <Tooltip />
