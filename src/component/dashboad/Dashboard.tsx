@@ -60,7 +60,7 @@ const Dashboard: React.FC = () => {
     },[])
     return (
         <>
-        <h1 className='text-2xl'><p>{store?.title}</p></h1>
+        <h1 className='text-2xl uppercase'><p>Admin Dashboard{store?.title}</p></h1>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 p-6 text-white">
                 {/* Orders */}
                 

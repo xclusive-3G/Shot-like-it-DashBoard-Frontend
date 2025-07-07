@@ -11,11 +11,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
         {/* Dashboard homepage with layout */}
-        <Route path="dashboard" element={
+        <Route path="/dashboard"  element={
           <ProtectedRoute>
             <DashboardLayout />
           </ProtectedRoute>
