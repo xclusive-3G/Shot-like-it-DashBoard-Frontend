@@ -49,11 +49,11 @@ const Dashboard: React.FC = () => {
     return res.json();
   })
   .then(data => {
-    console.log('✅ Data:', data);
+    console.log('Data:', data);
     setStore(data.store);
   })
   .catch(err => {
-    console.error('❌ Error:', err);
+    console.error('Error:', err);
   });
 
 
